@@ -1,0 +1,22 @@
+version: '1'
+
+networks:
+  myNet:
+    name: myNet
+
+services:
+  nginx:
+    container_name: nginx
+    image: nginx
+    ports:
+      - 80:80
+    volumes:
+      - ./deployment/nginx-conf/vhost.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - webserver-golang
+      - mongo
+
+  webserver-golang:
+    container_name: webserver_golang
+    build: .
+    image: golang-web
